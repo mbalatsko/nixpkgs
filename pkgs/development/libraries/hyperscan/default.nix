@@ -1,5 +1,5 @@
 { lib, stdenv, fetchFromGitHub, cmake, ragel, python3
-, util-linux, fetchpatch
+, util-linux, fetchpatch, gcc
 , boost
 , withStatic ? false # build only shared libs by default, build static+shared if true
 }:
@@ -24,8 +24,12 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [ boost ];
   nativeBuildInputs = [
-    cmake ragel python3 util-linux
+    cmake ragel python3 util-linux gcc
   ];
+
+  # patches = lib.optionals (stdenv.isDarwin) [
+  #   ./build_wrapper_adapt_to_darwin.patch
+  # ];
 
   cmakeFlags = [
     "-DFAT_RUNTIME=ON"
@@ -39,6 +43,12 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace libhs.pc.in \
       --replace "libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@" "libdir=@CMAKE_INSTALL_LIBDIR@" \
       --replace "includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@" "includedir=@CMAKE_INSTALL_INCLUDEDIR@"
+    ls $(${stdenv.cc}/bin/clang --print-file-name=lib)
+    substituteInPlace cmake/build_wrapper.sh \
+      --replace 'LIBC_SO=$("$@" --print-file-name=libc.so.6)' 'LIBC_SO=$(${stdenv.cc}/bin/clang --print-file-name=libc++.dylib)' \
+      --replace "nm -f p" "nm -f darwin"
+
+    cat cmake/build_wrapper.sh
   '';
 
   doCheck = true;
