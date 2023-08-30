@@ -43,7 +43,7 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace libhs.pc.in \
       --replace "libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@" "libdir=@CMAKE_INSTALL_LIBDIR@" \
       --replace "includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@" "includedir=@CMAKE_INSTALL_INCLUDEDIR@"
-    ls $(${stdenv.cc}/bin/clang --print-file-name=lib)
+    ls $(${stdenv.cc}/bin/gcc --print-file-name=lib)
     substituteInPlace cmake/build_wrapper.sh \
       --replace 'LIBC_SO=$("$@" --print-file-name=libc.so.6)' 'LIBC_SO=$(${stdenv.cc}/bin/clang --print-file-name=libc++.dylib)' \
       --replace "nm -f p" "nm -f darwin"
