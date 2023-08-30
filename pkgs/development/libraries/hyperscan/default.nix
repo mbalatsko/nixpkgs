@@ -58,7 +58,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     homepage = "https://www.hyperscan.io/";
     maintainers = with maintainers; [ avnik ];
-    platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" "x86_64-darwin" ];
     license = licenses.bsd3;
   };
 })
