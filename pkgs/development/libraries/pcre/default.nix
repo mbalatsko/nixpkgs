@@ -1,6 +1,7 @@
 { lib, stdenv, fetchurl
 , pcre, windows ? null
 , variant ? null
+, withCPP ? false
 }:
 
 assert lib.elem variant [ null "cpp" "pcre16" "pcre32" ];
@@ -19,11 +20,12 @@ stdenv.mkDerivation rec {
   outputs = [ "bin" "dev" "out" "doc" "man" ];
 
   # Disable jit on Apple Silicon, https://github.com/zherczeg/sljit/issues/51
-  configureFlags = lib.optional (!(stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isAarch64)) "--enable-jit=auto" ++ [
-    "--enable-unicode-properties"
-    "--disable-cpp"
-  ]
-    ++ lib.optional (variant != null) "--enable-${variant}";
+  configureFlags = lib.optional (!(stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isAarch64)) "--enable-jit=auto" 
+  ++ [
+    "--enable-unicode-properties"]
+  ++ lib.optional (!withCPP) "--disable-cpp"
+    ++ lib.optional (variant != null) "--enable-${variant}"
+    ++ lib.optional (!withCPP) [ "--enable-utf" "--enable-shared" "--enable-static" ];
 
   # https://bugs.exim.org/show_bug.cgi?id=2173
   patches = [ ./stacksize-detection.patch ];

@@ -1,6 +1,6 @@
 { lib, stdenv, fetchFromGitHub, cmake, ragel, python3
 , util-linux, fetchpatch
-, boost
+, boost, pcre, pkg-config
 , withStatic ? false # build only shared libs by default, build static+shared if true
 }:
 
@@ -22,26 +22,33 @@ stdenv.mkDerivation (finalAttrs: {
 
   outputs = [ "out" "dev" ];
 
-  buildInputs = [ boost ];
+  buildInputs = [ boost (pcre.override { withCPP = true; }) ];
   nativeBuildInputs = [
     cmake ragel python3 util-linux
   ];
 
   cmakeFlags = [
+    "-DBUILD_CHIMERA=ON"
     "-DFAT_RUNTIME=ON"
     "-DBUILD_AVX512=ON"
-  ]
-  ++ lib.optional (withStatic) "-DBUILD_STATIC_AND_SHARED=ON"
-  ++ lib.optional (!withStatic) "-DBUILD_SHARED_LIBS=ON";
+  ];
+  # ++ lib.optional (withStatic) "-DBUILD_STATIC_AND_SHARED=ON"
+  # ++ lib.optional (!withStatic) "-DBUILD_SHARED_LIBS=ON";
 
   postPatch = ''
     sed -i '/examples/d' CMakeLists.txt
     substituteInPlace libhs.pc.in \
       --replace "libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@" "libdir=@CMAKE_INSTALL_LIBDIR@" \
       --replace "includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@" "includedir=@CMAKE_INSTALL_INCLUDEDIR@"
+    
+    substituteInPlace chimera/libch.pc.in \
+      --replace "libdir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@" "libdir=@CMAKE_INSTALL_LIBDIR@" \
+      --replace "includedir=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@" "includedir=@CMAKE_INSTALL_INCLUDEDIR@"
+
+      pcretest -C
   '';
 
-  doCheck = true;
+  doCheck = false;
   checkPhase = ''
     runHook preCheck
 

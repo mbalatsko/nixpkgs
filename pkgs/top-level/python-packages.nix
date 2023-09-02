@@ -10408,6 +10408,8 @@ self: super: with self; {
 
   python-http-client = callPackage ../development/python-modules/python-http-client { };
 
+  python-hyperscan = callPackage ../development/python-modules/python-hyperscan { };
+
   python-i18n = callPackage ../development/python-modules/python-i18n { };
 
   pythonix = callPackage ../development/python-modules/pythonix {

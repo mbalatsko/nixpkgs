@@ -24591,6 +24591,8 @@ with pkgs;
   # pcre32 seems unused
   pcre-cpp = res.pcre.override { variant = "cpp"; };
 
+  pcre-cpp-utf = res.pcre.override { variant = "cpp"; withUTF8 = true; };
+
   pcre2 = callPackage ../development/libraries/pcre2 { };
 
   pdal = callPackage ../development/libraries/pdal { };
