@@ -5789,6 +5789,8 @@ self: super: with self; {
 
   keras-preprocessing = callPackage ../development/python-modules/keras-preprocessing { };
 
+  keras-self-attention = callPackage ../development/python-modules/keras-self-attention { };
+
   kerberos = callPackage ../development/python-modules/kerberos { };
 
   keyboard = callPackage ../development/python-modules/keyboard { };
