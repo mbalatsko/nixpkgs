@@ -774,6 +774,8 @@ self: super: with self; {
 
   astroquery = callPackage ../development/python-modules/astroquery { };
 
+  astroml = callPackage ../development/python-modules/astroml { };
+
   asttokens = callPackage ../development/python-modules/asttokens { };
 
   astunparse = callPackage ../development/python-modules/astunparse { };
@@ -1812,6 +1814,8 @@ self: super: with self; {
   cement = callPackage ../development/python-modules/cement { };
 
   cemm = callPackage ../development/python-modules/cemm { };
+
+  cesium = callPackage ../development/python-modules/cesium { };
 
   censys = callPackage ../development/python-modules/censys { };
 
@@ -4214,6 +4218,8 @@ self: super: with self; {
   gassist-text = callPackage ../development/python-modules/gassist-text { };
 
   gast = callPackage ../development/python-modules/gast { };
+
+  gatspy = callPackage ../development/python-modules/gatspy { };
 
   gatt = callPackage ../development/python-modules/gatt { };
 
@@ -12587,6 +12593,8 @@ self: super: with self; {
 
   sunweg = callPackage ../development/python-modules/sunweg { };
 
+  supersmoother = callPackage ../development/python-modules/supersmoother { };
+
   supervise_api = callPackage ../development/python-modules/supervise_api { };
 
   supervisor = callPackage ../development/python-modules/supervisor { };
@@ -13226,6 +13234,8 @@ self: super: with self; {
   trytond = callPackage ../development/python-modules/trytond { };
 
   tskit = callPackage ../development/python-modules/tskit { };
+
+  tslearn = callPackage ../development/python-modules/tslearn { };
 
   ttach = callPackage ../development/python-modules/ttach { };
 
