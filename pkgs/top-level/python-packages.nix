@@ -6240,6 +6240,8 @@ self: super: with self; {
 
   lightwave2 = callPackage ../development/python-modules/lightwave2 { };
 
+  lightwood = callPackage ../development/python-modules/lightwood { };
+
   lima = callPackage ../development/python-modules/lima { };
 
   lime = callPackage ../development/python-modules/lime { };
